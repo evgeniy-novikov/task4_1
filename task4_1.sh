@@ -50,9 +50,6 @@ add_string "User logged in: $UL"
 
 echo '--- Network ---'>>task4_1.out
 
-#net_if_net=`ip -o -4 a l | awk '{print $2, $4}' `
-#net_if=`ip a | awk '{ if ($1 ~ /^[0-9]+:/) printf $2" "; else {if ($1=="inet") print $2;}}'`
-
 net_if=`ip a | awk '/(mtu|inet)/{ if ($1 ~ /^[0-9]+:/) $2="#"$2; printf $2",";} ' | sed -e "s/:,/: /g" -e "s/#/\n/g" | sed "s/,$//" | sed "s/ $/ -/" | sed "s/,(.*)$//"| grep -v "^$"`
 
  IFS=$'\n'
