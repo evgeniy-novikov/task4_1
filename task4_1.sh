@@ -52,8 +52,22 @@ echo '--- Network ---'>>task4_1.out
 
 net_if=`ip a | awk '/(mtu|inet)/{ if ($1 ~ /^[0-9]+:/) $2="#"$2; printf $2",";} ' | sed -e "s/:,/: /g" -e "s/#/\n/g" | sed "s/,$//" | sed "s/ $/ -/" | grep -v "^$"`
 
- IFS=$'\n'
+IFS=$'\n'
     for i in $net_if
         do
-	echo $i |cut -d "," -f1 >>task4_1.out
+	echo $i |sed -e "s/,[^0-9]/#/"  -e "s/,/, /g" |cut -d "#" -f1 >>task4_1.out
+#	echo $i |cut -d "," -f1 >>task4_1.out
     done
+
+#NEWIF=(`ip address | awk '/mtu/{print $2}'`)
+#NEWIP=(`ip address | grep $'inet ' | awk '{print $2}'`)
+#for (( i=0 ; i < ${#NEWIF[*]} ; i++ ))
+#do
+#if [ -z  "${NEWIP[$i]// /}" ];
+#then
+#echo  "${NEWIF[$i]} -" >>task4_1.out
+#else
+#echo  "${NEWIF[$i]} ${NEWIP[$i]}" >>task4_1.out
+#fi
+#done
+
